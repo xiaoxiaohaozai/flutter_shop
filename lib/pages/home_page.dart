@@ -11,7 +11,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +33,17 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
             String leaderPhone = data['data']['shopInfo']['leaderPhone']; //店长电话
             List recommendList = data['data']['recommend']; // 商品推荐
 
+            //楼层数据解析
+            String floor1Title =
+                data['data']['floor1Pic']['PICTURE_ADDRESS']; //楼层1的标题图片
+            String floor2Title =
+                data['data']['floor2Pic']['PICTURE_ADDRESS']; //楼层1的标题图片
+            String floor3Title =
+                data['data']['floor3Pic']['PICTURE_ADDRESS']; //楼层1的标题图片
+            List floor1 = data['data']['floor1']; //楼层1商品和图片
+            List floor2 = data['data']['floor2']; //楼层1商品和图片
+            List floor3 = data['data']['floor3']; //楼层1商品和图片
+
             return SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -48,7 +60,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                   ),
                   Recommend(
                     recommendList: recommendList,
-                  )
+                  ),
+                  FloorTitle(pictureAddress: floor1Title),
+                  FloorContent(floorGoodsList: floor1),
+                  FloorTitle(pictureAddress: floor2Title),
+                  FloorContent(floorGoodsList: floor2),
+                  FloorTitle(pictureAddress: floor3Title),
+                  FloorContent(floorGoodsList: floor3),
                 ],
               ),
             );
@@ -65,11 +83,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   //保持状态
   @override
   bool get wantKeepAlive => true;
-
 }
 
-
-//首页轮播组件
+/// 首页轮播组件
 class SwiperDiy extends StatelessWidget {
   final List swiperDataList;
 
@@ -95,7 +111,7 @@ class SwiperDiy extends StatelessWidget {
   }
 }
 
-//首页导航区域
+/// 首页导航区域
 class TopNavigator extends StatelessWidget {
   final List navigatorList;
 
@@ -137,7 +153,7 @@ class TopNavigator extends StatelessWidget {
   }
 }
 
-//电话组件
+///电话组件
 class LeaderPhone extends StatelessWidget {
   final String leaderImage;
   final String leaderPhone;
@@ -166,7 +182,7 @@ class LeaderPhone extends StatelessWidget {
   }
 }
 
-//商品推荐
+/// 商品推荐
 class Recommend extends StatelessWidget {
   final List recommendList;
 
@@ -182,7 +198,7 @@ class Recommend extends StatelessWidget {
     );
   }
 
-//推荐商品标题
+  /// 推荐商品标题
   Widget _titleWidget() {
     return Container(
       alignment: Alignment.centerLeft,
@@ -209,7 +225,6 @@ class Recommend extends StatelessWidget {
   }
 
   Widget _item(index) {
-
     return InkWell(
       onTap: () {},
       child: Container(
@@ -230,6 +245,76 @@ class Recommend extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// 楼层标题组件
+class FloorTitle extends StatelessWidget {
+  final String pictureAddress;
+
+  FloorTitle({Key key, this.pictureAddress}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Image.network(pictureAddress),
+      padding: EdgeInsets.all(8.0),
+    );
+  }
+}
+
+/// 楼层商品组件
+class FloorContent extends StatelessWidget {
+  final List floorGoodsList;
+
+  const FloorContent({Key key, this.floorGoodsList}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          _firstRow(),
+          _otherGoods(),
+        ],
+      ),
+    );
+  }
+
+//中部
+  Widget _firstRow() {
+    return Row(
+      children: <Widget>[
+        _goodsItem(floorGoodsList[0]),
+        Column(
+          children: <Widget>[
+            _goodsItem(floorGoodsList[1]),
+            _goodsItem(floorGoodsList[2]),
+          ],
+        ),
+      ],
+    );
+  }
+
+  //底部
+  Widget _otherGoods() {
+    return Row(
+      children: <Widget>[
+        _goodsItem(floorGoodsList[3]),
+        _goodsItem(floorGoodsList[4]),
+      ],
+    );
+  }
+
+//单个商品图片
+  Widget _goodsItem(Map goods) {
+    return Container(
+      width: ScreenUtil().setWidth(375),
+      child: InkWell(
+        onTap: () {},
+        child: Image.network(goods['image']),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'dart:async';
 import 'dart:io';
 import '../config/service_url.dart';
+import 'dart:convert';
 
 //获取首页信息
 Future getHomePageContent() async {
@@ -16,6 +17,7 @@ Future getHomePageContent() async {
     var formData = {'lon': '115.02932', 'lat': '35.76189'};
     response = await dio.post(servicePath['homePageContent'], data: formData);
     if (response.statusCode == 200) {
+      print( "123${response.data is Map}");
       return response.data;
     } else {
       throw Exception("后端接口出现异常，请检查代码和服务器情况......");

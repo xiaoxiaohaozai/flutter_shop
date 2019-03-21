@@ -16,8 +16,8 @@ class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   int page = 1;
   List<Map> hotGoodsList = [];
-  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
-
+  GlobalKey<RefreshFooterState> _footerKey =
+      new GlobalKey<RefreshFooterState>();
 
   @override
   Widget build(BuildContext context) {
@@ -253,6 +253,7 @@ class TopNavigator extends StatelessWidget {
       height: ScreenUtil().setHeight(320),
       padding: EdgeInsets.all(3.0),
       child: GridView.count(
+        physics: NeverScrollableScrollPhysics(), //解决GridView 和listview 冲突
         crossAxisCount: 5,
         padding: EdgeInsets.all(4.0),
         children: navigatorList.map((item) {

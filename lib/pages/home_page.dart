@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/pages/ad_banner.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,6 +14,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
+  int page = 1;
+  List<Map> hotGoodsList = [];
+  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +27,8 @@ class _HomePageState extends State<HomePage>
       ),
       body: FutureBuilder(
         //异步渲染
-        future: getHomePageContent(),
+        future: request('homePageContent',
+            formData: {'lon': '115.02932', 'lat': '35.76189'}),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = json.decode(snapshot.data.toString());
@@ -44,8 +51,17 @@ class _HomePageState extends State<HomePage>
             List floor2 = data['data']['floor2']; //楼层1商品和图片
             List floor3 = data['data']['floor3']; //楼层1商品和图片
 
-            return SingleChildScrollView(
-              child: Column(
+            return EasyRefresh(
+              refreshFooter: ClassicsFooter(
+                  key: _footerKey,
+                  bgColor: Colors.white,
+                  textColor: Colors.pink,
+                  moreInfoColor: Colors.pink,
+                  showMore: true,
+                  noMoreText: '',
+                  moreInfo: '加载中',
+                  loadReadyText: '上拉加载....'),
+              child: ListView(
                 children: <Widget>[
                   SwiperDiy(swiperDataList),
                   TopNavigator(
@@ -67,8 +83,12 @@ class _HomePageState extends State<HomePage>
                   FloorContent(floorGoodsList: floor2),
                   FloorTitle(pictureAddress: floor3Title),
                   FloorContent(floorGoodsList: floor3),
+                  _hotGoods(),
                 ],
               ),
+              loadMore: () async {
+                _getHotGoods();
+              },
             );
           } else {
             return Center(
@@ -83,6 +103,96 @@ class _HomePageState extends State<HomePage>
   //保持状态
   @override
   bool get wantKeepAlive => true;
+
+  //获得火爆专区数据
+  void _getHotGoods() {
+    var formPage = {'page': page};
+    request('homePageBelowConten', formData: formPage).then((value) {
+      var data = json.decode(value.toString());
+      List<Map> newGoodsList = (data['data'] as List).cast();
+      setState(() {
+        hotGoodsList.addAll(newGoodsList);
+        page++;
+      });
+    });
+  }
+
+  Widget _hotGoods() {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          hotTitle,
+          _wrapList(),
+        ],
+      ),
+    );
+  }
+
+  //火爆专区标题
+  Widget hotTitle = new Container(
+    margin: EdgeInsets.only(top: 10),
+    padding: EdgeInsets.all(5),
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(
+            width: 0.5,
+            color: Colors.black12,
+          ),
+        )),
+    child: Text('火爆专区'),
+  );
+
+  //火爆专区子项
+  Widget _wrapList() {
+    if (hotGoodsList.length != 0) {
+      List<Widget> listWidget = hotGoodsList.map((value) {
+        return InkWell(
+          onTap: () {},
+          child: Container(
+            width: ScreenUtil().setWidth(372),
+            padding: EdgeInsets.all(5.0),
+            margin: EdgeInsets.only(bottom: 3.0),
+            child: Column(
+              children: <Widget>[
+                Image.network(value['image']),
+                Text(
+                  value['name'],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.pink,
+                    fontSize: ScreenUtil().setSp(26),
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Text('￥${value['mallPrice']}'),
+                    Expanded(
+                      child: Text(
+                        '￥${value['price']}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Colors.black26,
+                            decoration: TextDecoration.lineThrough),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }).toList();
+      return Wrap(
+        spacing: 2,
+        children: listWidget,
+      );
+    } else {
+      return Text('');
+    }
+  }
 }
 
 /// 首页轮播组件

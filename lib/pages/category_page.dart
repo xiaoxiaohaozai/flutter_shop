@@ -9,6 +9,7 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text("商品分类"),
       ),
       body: Row(
@@ -53,7 +54,6 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getCategory();
   }
@@ -91,3 +91,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     );
   }
 }
+
+
+
+

@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('百姓生活+'),
       ),
       body: FutureBuilder(
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage>
             List floor2 = data['data']['floor2']; //楼层1商品和图片
             List floor3 = data['data']['floor3']; //楼层1商品和图片
 
-            return EasyRefresh(
+            return new EasyRefresh(
               refreshFooter: ClassicsFooter(
                   key: _footerKey,
                   bgColor: Colors.white,

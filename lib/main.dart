@@ -3,16 +3,19 @@ import 'package:flutter_shop/pages/index_page.dart';
 import 'package:provide/provide.dart';
 import 'providers/test_counter.dart';
 import 'providers/child_category.dart';
-
+import 'providers/category_goods_list_provide.dart';
 
 void main() {
   var testCounter = TestCounter();
   var childCategory = ChildCategory();
   var providers = Providers();
+  var categoryGoodListProvide = CategoryGoodListProvide();
   //绑定provider
   providers
     ..provide(Provider<TestCounter>.value(testCounter))
-    ..provide(Provider<ChildCategory>.value(childCategory));
+    ..provide(Provider<ChildCategory>.value(childCategory))
+    ..provide(Provider<CategoryGoodListProvide>.value(categoryGoodListProvide));
+
   runApp(
     ProviderNode(
       child: MyApp(),

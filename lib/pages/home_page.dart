@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage>
         centerTitle: true,
         title: Text('百姓生活+'),
       ),
-      body: FutureBuilder(
+      body: new FutureBuilder(
         //异步渲染
         future: request('homePageContent',
             formData: {'lon': '115.02932', 'lat': '35.76189'}),

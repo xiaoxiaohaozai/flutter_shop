@@ -1,16 +1,23 @@
 # flutter_shop
 
-A new Flutter application.
+Flutter实战-百姓生活+
 
-## Getting Started
+## 效果展示
 
-This project is a starting point for a Flutter application.
+### 首页
 
-A few resources to get you started if this is your first Flutter project:
+<img src="screenshot/home.png" width="414" height="896">
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+### 推荐
+<img src="screenshot/recommend.png" width="414" height="896">
+###
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+### 热卖
+<img src="screenshot/hotgoods.png" width="414" height="896">
+###
+
+### 分类
+<img src="screenshot/category.png" width="414" height="896">
+
+## 开发过程
+正在编辑中...

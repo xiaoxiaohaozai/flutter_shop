@@ -6,12 +6,15 @@ import 'package:flutter_shop/pages/category_page.dart';
 import 'package:flutter_shop/pages/home_page.dart';
 import 'package:flutter_shop/pages/member_page.dart';
 
+/// 页面容器
 class IndexPage extends StatefulWidget {
   @override
   _IndexState createState() => _IndexState();
 }
 
 class _IndexState extends State<IndexPage> {
+  int currentIndex = 0;
+  var currentPage;
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.home),
@@ -38,19 +41,16 @@ class _IndexState extends State<IndexPage> {
     MemberPage(),
   ];
 
-  int currentIndex = 0;
-  var currentPage;
-
   @override
   void initState() {
+    super.initState();
     //默认显示的界面
     currentPage = tabBodies[currentIndex];
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)
+      ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)
       ..init(context); //不太理解ScreenUtil.instance没有声明类型
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),

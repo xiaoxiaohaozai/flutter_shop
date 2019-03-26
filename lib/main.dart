@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       child: MaterialApp(
         title: '百姓生活+',
-        debugShowCheckedModeBanner: false, //隐藏右上角debug
+        debugShowCheckedModeBanner: false, //隐藏右上角debug图标
         theme: ThemeData(primaryColor: Colors.pink),
         home: IndexPage(),
       ),

@@ -227,7 +227,7 @@ class _RightGoodsListState extends State<RightGoodsList> {
   }
 
   List<Widget> _wrapGoodsList() {
-    if (goodsList.length != 0) {
+    if (goodsList != null && goodsList.length != 0) {
       return goodsList.map((CategoryListData categoryListData) {
         return new InkWell(
           onTap: () {},

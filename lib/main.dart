@@ -9,12 +9,12 @@ void main() {
   var testCounter = TestCounter();
   var childCategory = ChildCategory();
   var providers = Providers();
-  var categoryGoodListProvide = CategoryGoodListProvide();
+  var categoryGoodsListProvide = CategoryGoodsListProvide();
   //绑定provider
   providers
     ..provide(Provider<TestCounter>.value(testCounter))
     ..provide(Provider<ChildCategory>.value(childCategory))
-    ..provide(Provider<CategoryGoodListProvide>.value(categoryGoodListProvide));
+    ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide));
 
   runApp(
     ProviderNode(

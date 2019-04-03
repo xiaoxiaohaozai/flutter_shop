@@ -2,10 +2,6 @@
 
 Flutter实战-百姓生活+
 
-## 效果展示
-
-<img src="screenshot/flutter_shop.gif" width="414" height="896">
-
 ### 首页
 <img src="screenshot/home.png" width="414" height="896">
 

@@ -46,8 +46,8 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     isChecked = index == Provide.value<ChildCategory>(context).childIndex;
     return InkWell(
       onTap: () {
-        _getCategoryGoodsList(item.mallCategoryId, item.mallSubId);
-        Provide.value<ChildCategory>(context).changeChildIndex(index);
+        _getCategoryGoodsList(item.mallSubId);
+        Provide.value<ChildCategory>(context).changeChildIndex(index,item.mallSubId);
       },
       child: Container(
         alignment: Alignment.center,
@@ -64,9 +64,9 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   }
 
   // 获得商品列表
-  void _getCategoryGoodsList(String categoryId, String categorySubId) {
+  void _getCategoryGoodsList( String categorySubId) {
     var parameters = {
-      'categoryId': categoryId,
+      'categoryId': Provide.value<ChildCategory>(context).categoryId,
       'categorySubId': categorySubId,
       'page': 1
     };

@@ -57,7 +57,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
           listIndex = index;
         });
         //刷新二级菜单和商品列表
-        Provide.value<ChildCategory>(context).setChildCategoryList(list[index].bxMallSubDto);
+        Provide.value<ChildCategory>(context).setChildCategoryList(list[index].bxMallSubDto,list[index].mallCategoryId);
         _getCategoryGoodsList(list[index].mallCategoryId);
       },
       child: Container(
@@ -87,7 +87,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         list = categoryModel.data;
       });
       //右侧默认加载菜单和商品列表
-      Provide.value<ChildCategory>(context).setChildCategoryList(list[listIndex].bxMallSubDto);
+      Provide.value<ChildCategory>(context).setChildCategoryList(list[listIndex].bxMallSubDto,list[listIndex].mallCategoryId);
       _getCategoryGoodsList(list[listIndex].mallCategoryId);
     });
   }
@@ -100,8 +100,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       if (categoryListModel.data == null) {
         Provide.value<CategoryGoodsListProvide>(context).updateGoodsList([]);
       } else {
-        Provide.value<CategoryGoodsListProvide>(context)
-            .updateGoodsList(categoryListModel.data);
+        Provide.value<CategoryGoodsListProvide>(context).updateGoodsList(categoryListModel.data);
       }
     });
   }

@@ -7,12 +7,26 @@ import 'dart:convert';
 class DetailsInfoProvide with ChangeNotifier {
   DetailsModel goodsInfo = null;
 
-  getGoodsInfo(String id) {
+  getGoodsInfo(String id) async {
     var formData = {'goodId': id};
-    request('getGoodDetailById', formData: formData).then((value) {
+    await request('getGoodDetailById', formData: formData).then((value) {
       var responseData = json.decode(value.toString());
-      print(responseData);
+      goodsInfo = DetailsModel.fromJson(responseData);
       notifyListeners();
     });
+  }
+
+  bool isLeft = true;
+  bool isRight = false;
+//改变tabbar
+  changeLeftAndRight(String changeState) {
+    if (changeState == 'left') {
+      isLeft = true;
+      isRight = false;
+    } else {
+      isLeft = false;
+      isRight = true;
+    }
+    notifyListeners();
   }
 }

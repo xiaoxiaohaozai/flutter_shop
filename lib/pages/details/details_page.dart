@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/providers/details_info.dart';
 import 'package:provide/provide.dart';
+import 'package:flutter_shop/pages/details/details_top_area.dart';
+import 'package:flutter_shop/pages/details/details_explain.dart';
+import 'package:flutter_shop/pages/details/details_tabbar.dart';
+import 'package:flutter_shop/pages/details/details_web.dart';
+import 'package:flutter_shop/pages/details/details_bottom.dart';
 
 class DetailsPage extends StatelessWidget {
   final String goodsId;
@@ -9,7 +14,6 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _getBackInfo(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -26,8 +30,22 @@ class DetailsPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Container(
-              child: Row(
-                children: <Widget>[],
+              child: Stack(
+                children: <Widget>[
+                  ListView(
+                    children: <Widget>[
+                      DetailsTopArea(),
+                      DetailsExplain(),
+                      DetailsTabbar(),
+                      DetailsWeb(),
+                    ],
+                  ),
+                  Positioned(
+                    child: DetailsBottom(),
+                    bottom: 0,
+                    left: 0,
+                  ),
+                ],
               ),
             );
           } else {

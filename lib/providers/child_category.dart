@@ -23,6 +23,7 @@ class ChildCategory with ChangeNotifier {
 //在右侧分类前加上全部
     BxMallSubDto all = BxMallSubDto();
     all.mallSubName = '全部';
+    all.mallSubId = '';
     this.childCategoryList = [all];
     this.childCategoryList.addAll(childCategoryList);
     notifyListeners();

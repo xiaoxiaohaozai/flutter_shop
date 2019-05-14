@@ -8,6 +8,7 @@ import 'package:provide/provide.dart';
 import 'package:flutter_shop/providers/child_category.dart';
 import 'package:flutter_shop/service/service_method.dart';
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
 /// 右侧商品列表
 class RightGoodsList extends StatefulWidget {
@@ -104,11 +105,24 @@ class _RightGoodsListState extends State<RightGoodsList> {
     request('getMallGoods', formData: data).then((value) {
       var categoryListModel = CategoryListModel.fromJson(json.decode(value));
       if (categoryListModel.data == null) {
-        Provide.value<ChildCategory>(context).changeNoMore("没有更多了");
+        //Provide.value<ChildCategory>(context).changeNoMore("没有更多了");
+
+        _showToast('已经到底了');
       } else {
         Provide.value<CategoryGoodsListProvide>(context)
             .addGoodsList(categoryListModel.data);
       }
     });
+  }
+
+  _showToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.pink,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

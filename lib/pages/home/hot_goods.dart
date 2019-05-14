@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/model/hot_goods_model.dart' show HotGoodsModelData;
+import 'package:flutter_shop/routers/application.dart';
+
 
 /// 热门商品
 class HotGoods extends StatelessWidget {
@@ -14,7 +16,7 @@ class HotGoods extends StatelessWidget {
       child: Column(
         children: <Widget>[
           _hotTitle(),
-          _wrapList(),
+          _wrapList(context),
         ],
       ),
     );
@@ -39,11 +41,14 @@ class HotGoods extends StatelessWidget {
   }
 
   //火爆专区子项
-  Widget _wrapList() {
+  Widget _wrapList(context) {
     if (data != null && data.length != 0) {
       List<Widget> listWidget = data.map((value) {
         return InkWell(
-          onTap: () {},
+          onTap: () {
+            Application.router
+                .navigateTo(context, "/detail?id=${value.goodsId}");
+          },
           child: Container(
             width: ScreenUtil().setWidth(372),
             padding: EdgeInsets.all(5.0),

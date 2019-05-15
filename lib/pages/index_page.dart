@@ -37,7 +37,8 @@ class _IndexState extends State<IndexPage> {
   final List<Widget> tabBodies = [
     HomePage(),
     CategoryPage(),
-    CartPage(),
+   // CartPage(),
+CartPage(),
     MemberPage(),
   ];
 

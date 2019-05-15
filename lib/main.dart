@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/pages/index_page.dart';
 import 'package:provide/provide.dart';
-import 'providers/test_counter.dart';
 import 'providers/child_category.dart';
 import 'providers/category_goods_list_provide.dart';
 import 'package:fluro/fluro.dart';
 import 'routers/routes.dart';
 import 'routers/application.dart';
 import 'providers/details_info.dart';
+import 'package:flutter_shop/providers/cart.dart';
 
 void main() {
-  var testCounter = TestCounter();
+  var cartProvide = CartProvide();
   var childCategory = ChildCategory();
   var categoryGoodsListProvide = CategoryGoodsListProvide();
   var detailsInfoProvide = new DetailsInfoProvide();
@@ -18,7 +18,7 @@ void main() {
 
   //绑定provider
   providers
-    ..provide(Provider<TestCounter>.value(testCounter))
+    ..provide(Provider<CartProvide>.value(cartProvide))
     ..provide(Provider<ChildCategory>.value(childCategory))
     ..provide(
         Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide))

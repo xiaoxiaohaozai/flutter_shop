@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_shop/providers/cart.dart';
+import 'package:provide/provide.dart';
 
 class CardBottom extends StatelessWidget {
   @override
@@ -9,19 +11,27 @@ class CardBottom extends StatelessWidget {
       color: Colors.white,
       width: ScreenUtil().setWidth(750),
       child: Row(
-        children: <Widget>[selectAllBtn(), allPriceArea(), goButton(),],
+        children: <Widget>[
+          selectAllBtn(context),
+          allPriceArea(context),
+          goButton(context),
+        ],
       ),
     );
   }
 
   //多选按钮
-  Widget selectAllBtn() {
+  Widget selectAllBtn(BuildContext context) {
+    bool isAllCheck = Provide.value<CartProvide>(context).isAllCheck;
+    print("全部选中" + isAllCheck.toString());
     return Container(
         child: Row(
       children: <Widget>[
         Checkbox(
-          value: true,
-          onChanged: (value) {},
+          value: isAllCheck,
+          onChanged: (value) {
+            Provide.value<CartProvide>(context).changeAllCheckState(value);
+          },
           activeColor: Colors.pink,
         ),
         Text('全选')
@@ -29,7 +39,9 @@ class CardBottom extends StatelessWidget {
     ));
   }
 
-  Widget allPriceArea() {
+  Widget allPriceArea(BuildContext context) {
+    double allPrice = Provide.value<CartProvide>(context).allPrice;
+
     return Container(
       alignment: Alignment.centerRight,
       child: Column(
@@ -49,7 +61,7 @@ class CardBottom extends StatelessWidget {
               Container(
                 alignment: Alignment.centerRight,
                 width: ScreenUtil().setWidth(150),
-                child: Text('￥1922',
+                child: Text('￥$allPrice',
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(36),
                       color: Colors.red,
@@ -72,7 +84,9 @@ class CardBottom extends StatelessWidget {
   }
 
   //结算按钮
-  Widget goButton() {
+  Widget goButton(BuildContext context) {
+    int allGoodsCount = Provide.value<CartProvide>(context).allGoodsCount;
+
     return Container(
       width: ScreenUtil().setWidth(160),
       padding: EdgeInsets.only(left: 10),
@@ -84,7 +98,7 @@ class CardBottom extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.red, borderRadius: BorderRadius.circular(3)),
           child: Text(
-            '结算(10)',
+            '结算($allGoodsCount)',
             style: TextStyle(color: Colors.white),
           ),
         ),

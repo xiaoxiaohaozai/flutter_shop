@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_shop/model/cart_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/pages/cart/cart_count.dart';
+import 'package:provide/provide.dart';
+import 'package:flutter_shop/providers/cart.dart';
 
 class CartItem extends StatelessWidget {
   CartInfoMode item;
@@ -19,21 +21,24 @@ class CartItem extends StatelessWidget {
           border: Border(bottom: BorderSide(width: 1, color: Colors.black12))),
       child: Row(
         children: <Widget>[
-          _cartCheckBt(item),
+          _cartCheckBt(context, item),
           _cartImage(item),
           _cartGoodsName(item),
-          _cartPrice(item),
+          _cartPrice(context, item),
         ],
       ),
     );
   }
 
   //多选按钮
-  Widget _cartCheckBt(CartInfoMode item) {
+  Widget _cartCheckBt(context, CartInfoMode item) {
     return Container(
       child: Checkbox(
         value: item.isCheck,
-        onChanged: (value) {},
+        onChanged: (value) {
+          item.isCheck = value;
+          Provide.value<CartProvide>(context).changeCheckState(item);
+        },
         activeColor: Colors.pink,
       ),
     );
@@ -60,14 +65,14 @@ class CartItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(item.goodsName),
-          CartCount(),
+          CartCount(item),
         ],
       ),
     );
   }
 
   //商品价格
-  Widget _cartPrice(CartInfoMode item) {
+  Widget _cartPrice(context, CartInfoMode item) {
     return Container(
       width: ScreenUtil().setWidth(150),
       alignment: Alignment.centerRight,
@@ -76,7 +81,10 @@ class CartItem extends StatelessWidget {
           Text('￥${item.price}'),
           Container(
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Provide.value<CartProvide>(context)
+                    .deleteOneGoods(item.goodsId);
+              },
               child: Icon(
                 Icons.delete_forever,
                 color: Colors.black26,

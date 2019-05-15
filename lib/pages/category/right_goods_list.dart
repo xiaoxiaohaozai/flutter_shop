@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/model/category_list_model.dart';
 
 import 'package:flutter_shop/providers/category_goods_list_provide.dart';
+import 'package:flutter_shop/routers/application.dart';
 import 'package:provide/provide.dart';
 import 'package:flutter_shop/providers/child_category.dart';
 import 'package:flutter_shop/service/service_method.dart';
@@ -55,7 +56,10 @@ class _RightGoodsListState extends State<RightGoodsList> {
   List<Widget> _wrapGoodsList(List<CategoryListData> goodsList) {
     return goodsList.map((CategoryListData categoryListData) {
       return new InkWell(
-        onTap: () {},
+        onTap: () {
+          Application.router
+              .navigateTo(context, "/detail?id=${categoryListData.goodsId}");
+        },
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,

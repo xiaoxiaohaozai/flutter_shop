@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_shop/model/cart_info.dart';
+import 'package:flutter_shop/providers/cart.dart';
+import 'package:provide/provide.dart';
 
 class CartCount extends StatelessWidget {
+  final CartInfoMode item;
+
+  CartCount(this.item);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,17 +18,21 @@ class CartCount extends StatelessWidget {
           BoxDecoration(border: Border.all(width: 1, color: Colors.black12)),
       child: Row(
         children: <Widget>[
-          _reduceBtn(),
-          Expanded(child: _countArea(),),
-          _addBtn()
+          _reduceBtn(context),
+          Expanded(
+            child: _countArea(),
+          ),
+          _addBtn(context)
         ],
       ),
     );
   }
 
-  Widget _reduceBtn() {
+  Widget _reduceBtn(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Provide.value<CartProvide>(context).addOrReduceAction(item, 'reduce');
+      },
       child: Container(
         width: ScreenUtil().setWidth(45),
         height: ScreenUtil().setHeight(45),
@@ -29,14 +40,16 @@ class CartCount extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border(right: BorderSide(width: 1, color: Colors.black12))),
-        child: Text('-'),
+        child: item.count > 1 ? Text('-') : Text(' '),
       ),
     );
   }
 
-  Widget _addBtn() {
+  Widget _addBtn(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Provide.value<CartProvide>(context).addOrReduceAction(item, 'add');
+      },
       child: Container(
         width: ScreenUtil().setWidth(45),
         height: ScreenUtil().setHeight(45),
@@ -53,7 +66,7 @@ class CartCount extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       color: Colors.white,
-      child: Text('1'),
+      child: Text('${item.count}'),
     );
   }
 }

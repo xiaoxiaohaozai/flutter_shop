@@ -8,16 +8,19 @@ import 'routers/routes.dart';
 import 'routers/application.dart';
 import 'providers/details_info.dart';
 import 'package:flutter_shop/providers/cart.dart';
+import 'package:flutter_shop/providers/current_index.dart';
 
 void main() {
   var cartProvide = CartProvide();
   var childCategory = ChildCategory();
   var categoryGoodsListProvide = CategoryGoodsListProvide();
   var detailsInfoProvide = new DetailsInfoProvide();
+  var currentIndexProvide = new CurrentIndexProvide();
   var providers = Providers();
 
   //绑定provider
   providers
+    ..provide(Provider<CurrentIndexProvide>.value(currentIndexProvide))
     ..provide(Provider<CartProvide>.value(cartProvide))
     ..provide(Provider<ChildCategory>.value(childCategory))
     ..provide(
